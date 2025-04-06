@@ -59,7 +59,7 @@ fn handle_connection(mut stream: TcpStream, db: &mut PriceDB) {
     
             if first_byte == 'Q' {    
                 let res = db.query(t1, t2);
-                let int_res = res.round() as i32;
+                let int_res = round_half_towards_zero(res);
 
                 eprintln!("Result is: {}", int_res);
 
@@ -78,3 +78,13 @@ fn handle_connection(mut stream: TcpStream, db: &mut PriceDB) {
         }
     }
 }
+
+
+fn round_half_towards_zero(x: f64) -> i32 {
+    if x > 0.0 {
+        (x + 0.5).floor() as i32
+    } else {
+        (x - 0.5).ceil() as i32
+    }
+}
+
