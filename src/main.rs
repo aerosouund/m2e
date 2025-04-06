@@ -65,7 +65,7 @@ fn handle_connection(mut stream: TcpStream, db: &mut PriceDB) {
             }
     
             if first_byte == 'I' {
-                let dp = DataPoint::new(t2, t1);
+                let dp = DataPoint::new(t1, t2);
                 db.insert(dp);
             }
 
