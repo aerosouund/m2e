@@ -21,6 +21,12 @@ impl PriceDB {
     }
 
     pub fn insert(&mut self, dp: DataPoint) {
+
+        if self.db.len() == 0 {
+            self.db.push(dp);
+            return
+        }
+
         if self.db.len() == 1 {
             let existing = self.db.get(0).unwrap();
             if existing.timestamp > dp.timestamp {
