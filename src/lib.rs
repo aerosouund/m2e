@@ -21,7 +21,6 @@ impl PriceDB {
     }
 
     pub fn insert(&mut self, dp: DataPoint) {
-
         if self.db.len() == 0 {
             self.db.push(dp);
             return
