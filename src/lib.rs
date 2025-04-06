@@ -21,6 +21,8 @@ impl PriceDB {
     }
 
     pub fn insert(&mut self, dp: DataPoint) {
+        eprintln!("inserting value: {}, at timestamp {}", dp.value, dp.timestamp);
+
         if self.db.len() == 0 {
             self.db.push(dp);
             return
