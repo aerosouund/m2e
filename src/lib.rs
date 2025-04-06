@@ -76,7 +76,11 @@ impl PriceDB {
             sum += dp.value
         }
 
-        sum as f64 / prices[i1..i2].len() as f64
+        let mean= prices[i1..i2].len() as f64;
+
+        eprintln!("the divisor is {}", mean);
+
+        sum as f64 / mean
     }
 }
 
