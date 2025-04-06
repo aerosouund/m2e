@@ -56,25 +56,38 @@ impl PriceDB {
         if prices.len() == 1 {
             return prices[0].value as f64;
         }
+        
+        // Initialize with sentinel values in case the conditions are never met
         let mut i1 = 0;
-        let mut i2 = 0;
-
-        for i in 0..prices.len()-1 {
-            if prices[i].timestamp < t1 && prices[i+1].timestamp > t1 {
+        let mut i2 = prices.len() - 1;
+        
+        // Find i1 such that prices[i1].timestamp is the first point >= t1
+        // Find i2 such that prices[i2].timestamp is the last point <= t2
+        for i in 0..prices.len() {
+            if prices[i].timestamp >= t1 {
                 i1 = i;
+                break;
             }
-
-            if prices[i].timestamp < t2 && prices[i+1].timestamp > t2 {
+        }
+        
+        for i in (0..prices.len()).rev() {
+            if prices[i].timestamp <= t2 {
                 i2 = i;
+                break;
             }
         }
-
-        let mut sum = 0;
-
-        for dp in &prices[i1..i2] {
-            eprintln!("adding {} to the total. sum is now {}", dp.value, sum);
-            sum += dp.value
+        
+        if i1 > i2 {
+            return 0.0; // or handle this case however appropriate
         }
+        
+        // Now include the full inclusive range
+        let mut sum = 0;
+        for dp in &prices[i1..=i2] {
+            eprintln!("adding {} to the total. sum is now {}", dp.value, sum);
+            sum += dp.value;
+        }
+        
 
         sum as f64 / prices[i1..i2].len() as f64
     }
