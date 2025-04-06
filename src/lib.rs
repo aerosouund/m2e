@@ -72,6 +72,7 @@ impl PriceDB {
         let mut sum = 0;
 
         for dp in &prices[i1..i2] {
+            eprintln!("adding {} to the total. sum is now {}", dp.value, sum);
             sum += dp.value
         }
 

@@ -59,7 +59,12 @@ fn handle_connection(mut stream: TcpStream, db: &mut PriceDB) {
     
             if first_byte == 'Q' {    
                 let res = db.query(t1, t2);
-                if let Err(e) = stream.write_all(&res.to_be_bytes()) {
+                let int_res = res.round() as i32;
+
+                eprintln!("Result is: {}", int_res);
+
+
+                if let Err(e) = stream.write_all(&int_res.to_be_bytes()) {
                     eprintln!("Failed to write to stream: {}", e);
                 }
             }
